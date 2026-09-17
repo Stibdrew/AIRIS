@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Restrooms{% endblock %}
+{% from "components/macros.html" import page_banner, restroom_card with context %}
+
+{% block content %}
+<div class="page">
+  {{ page_banner("Restroom overview", "Restrooms", restrooms|length ~ " restrooms across 3 floors · SH Building") }}
+
+  <div class="restroom-grid detailed" id="restroomGrid">
+    {% for r in restrooms %}
+      {{ restroom_card(r, detailed=True) }}
+    {% endfor %}
+  </div>
+
+  <p class="table-footnote">
+    Readings are simulated for this build and refresh every few seconds —
+    hover any card for the full sensor detail.
+  </p>
+</div>
+{% endblock %}

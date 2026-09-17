@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% from "components/macros.html" import page_banner, metric_card, status_badge, notification_card, restroom_card, icon with context %}
+
+{% block content %}
+<div class="page" id="dashboardPage">
+
+  <div class="page-head">
+    <p class="eyebrow">Building overview</p>
+    <h1>Dashboard</h1>
+    <p class="meta">{{ building_name }} · {{ restrooms|length }} restrooms monitored ·
+      Updated <span id="lastUpdated">{{ last_updated }}</span></p>
+  </div>
+
+  <div class="summary-grid">
+    {{ metric_card("Avg. AQI score", summary.aqi.avg, "", summary.aqi.trend, "warning" if summary.aqi.avg < 60 else "neutral", "aqi") }}
+    {{ metric_card("Temperature", "%.1f"|format(summary.temperature.avg), "°C", "Building average", "neutral", "temperature") }}
+    {{ metric_card("Humidity", summary.humidity.avg, "%", "Building average", "neutral", "humidity") }}
+    {{ metric_card("VOC", summary.voc.avg, "ppb", "Building average", "neutral", "voc") }}
+    {{ metric_card("CO₂", summary.co2.avg, "ppm", "Building average", "neutral", "co2") }}
+  </div>
+
+  <div class="dash-columns">
+    <div class="dash-main">
+
+      <div class="section-head">
+        <div>
+          <h2>Restroom status</h2>
+          <p>Live snapshot across all six monitored restrooms.</p>
+        </div>
+        <a href="{{ url_for('restrooms') }}" class="link-quiet">View all →</a>
+      </div>
+
+      <div class="restroom-grid" id="restroomGrid">
+        {% for r in restrooms %}
+          {{ restroom_card(r) }}
+        {% endfor %}
+      </div>
+
+      <p class="table-footnote">
+        Readings are simulated for this build and refresh every few seconds —
+        hover any card for the full sensor detail.
+      </p>
+    </div>
+
+    <div class="dash-side">
+      <div class="side-card">
+        <h3>Alert summary</h3>
+        <div class="alert-summary-grid">
+          <div><strong>{{ alert_counts.all }}</strong><span>Total</span></div>
+          <div><strong class="text-warning">{{ alert_counts.warning }}</strong><span>Warning</span></div>
+          <div><strong class="text-info">{{ alert_counts.info }}</strong><span>Info</span></div>
+          <div><strong>{{ alert_counts.unread }}</strong><span>Unread</span></div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <h3>Sensor status</h3>
+        <div class="sensor-status-row">
+          <div class="sensor-status-bar">
+            <div class="sensor-status-fill" style="width: {{ (sensors_online / sensors_total * 100) | round | int }}%;"></div>
+          </div>
+          <p>{{ sensors_online }} of {{ sensors_total }} sensors online</p>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-card-head">
+          <h3>Recent notifications</h3>
+          <a href="{{ url_for('alerts') }}" class="link-quiet">See all</a>
+        </div>
+        <div class="notif-list compact">
+          {% for a in recent_alerts %}
+          {{ notification_card(a) }}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

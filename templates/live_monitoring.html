@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Live Monitoring{% endblock %}
+{% from "components/macros.html" import page_banner, status_badge with context %}
+
+{% block content %}
+<div class="page">
+  {{ page_banner("Real-time readings", "Live Monitoring", "Refreshing every few seconds · " ~ restrooms|length ~ " restrooms") }}
+
+  <div class="live-table-wrap">
+    <table class="data-table live-table" id="liveTable">
+      <thead>
+        <tr>
+          <th>Restroom</th>
+          <th>Sensor</th>
+          <th>AQI</th>
+          <th>Temperature</th>
+          <th>Humidity</th>
+          <th>VOC</th>
+          <th>CO₂</th>
+          <th>Occupancy</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in restrooms %}
+        <tr class="live-row" data-code="{{ r.code }}">
+          <td>
+            <p class="cell-strong">{{ r.name }}</p>
+            <p class="cell-sub">{{ r.floor }} · {{ r.wing }}</p>
+          </td>
+          <td class="cell-sub">{{ r.sensor_type }} sensor</td>
+          <td data-field="aqi">{{ r.aqi }}</td>
+          <td data-field="temperature">{{ "%.1f"|format(r.temperature) }}°C</td>
+          <td data-field="humidity">{{ r.humidity }}%</td>
+          <td data-field="voc">{{ r.voc }} ppb</td>
+          <td data-field="co2">{{ r.co2 }} ppm</td>
+          <td data-field="occupancy">{{ r.occupancy }}</td>
+          <td>
+            {% if r.sensor_status == 'Online' %}
+              <span class="badge badge-normal"><i class="dot"></i>Online</span>
+            {% else %}
+              <span class="badge badge-offline"><i class="dot"></i>Offline</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <p class="table-footnote">Live values are simulated for demonstration and drift gently around each restroom's baseline reading. Sensors that are offline hold their last known value.</p>
+</div>
+{% endblock %}

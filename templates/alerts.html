@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Alerts{% endblock %}
+{% from "components/macros.html" import page_banner, notification_card with context %}
+
+{% block content %}
+<div class="page">
+  {{ page_banner("Notification centre", "Alerts / Notifications", "All threshold breaches, sensor events and system notices for the SH Building") }}
+
+  <div class="filter-tabs" id="filterTabs">
+    <button type="button" class="filter-tab is-active" data-filter="all">All <span>{{ counts.all }}</span></button>
+    <button type="button" class="filter-tab" data-filter="warning">Warning <span>{{ counts.warning }}</span></button>
+    <button type="button" class="filter-tab" data-filter="info">Info <span>{{ counts.info }}</span></button>
+    <button type="button" class="filter-tab" data-filter="unread">Unread <span>{{ counts.unread }}</span></button>
+  </div>
+
+  <div class="notif-list" id="notifList">
+    {% for a in alerts %}
+      {{ notification_card(a) }}
+    {% else %}
+      <p class="empty-state">No notifications yet.</p>
+    {% endfor %}
+  </div>
+  <p class="empty-state" id="emptyFiltered" hidden>No notifications match this filter.</p>
+</div>
+{% endblock %}

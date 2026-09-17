@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Historical Data Set{% endblock %}
+{% from "components/macros.html" import page_banner, metric_card, icon with context %}
+
+{% block content %}
+<div class="page">
+  {{ page_banner("Trends &amp; history", "Historical Data Set", "Daily building averages and alert counts by month") }}
+
+  <div class="summary-grid">
+    {{ metric_card("Avg. temperature", avg_temp, "°C", month_label, "neutral") }}
+    {{ metric_card("Avg. humidity", avg_humidity, "%", month_label, "neutral") }}
+    {{ metric_card("Avg. VOC", avg_voc, "ppb", month_label, "neutral") }}
+    {{ metric_card("Alerts this month", alerts_total, "", month_label, "warning" if alerts_total > 0 else "neutral") }}
+  </div>
+
+  <div class="card chart-card">
+    <div class="section-head">
+      <div>
+        <h2>Daily AQI — {{ month_label }}</h2>
+        <p>Composite score derived from VOC and CO₂ readings, 0–100.</p>
+      </div>
+      <div class="month-nav">
+        <a href="{{ url_for('historical', year=prev_year, month=prev_month) }}" class="icon-btn" aria-label="Previous month">{{ icon('chevron-left', 16) }}</a>
+        <span>{{ month_label }}</span>
+        <a href="{{ url_for('historical', year=next_year, month=next_month) }}" class="icon-btn" aria-label="Next month">{{ icon('chevron-right', 16) }}</a>
+      </div>
+    </div>
+    <div id="aqiChart" class="aqi-chart" data-points='{{ chart_points|tojson }}'></div>
+  </div>
+
+  <div class="section-head">
+    <div>
+      <h2>Daily readings</h2>
+      <p>{{ rows|length }} days recorded for {{ month_label }}</p>
+    </div>
+    <a href="{{ url_for('export_historical_csv', year=year, month=month) }}" class="btn-ghost">
+      {{ icon('download', 14) }} Export CSV
+    </a>
+  </div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Avg Temp</th>
+          <th>Avg Humidity</th>
+          <th>Avg VOC</th>
+          <th>Avg CO₂</th>
+          <th>Alerts</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td class="cell-strong">{{ r.reading_date }}</td>
+          <td>{{ r.avg_temp }}°C</td>
+          <td>{{ r.avg_humidity }}%</td>
+          <td>{{ r.avg_voc }} ppb</td>
+          <td>{{ r.avg_co2 }} ppm</td>
+          <td>{{ r.alerts_count }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" class="empty-state">No historical data for this month.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

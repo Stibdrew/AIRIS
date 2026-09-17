@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — AIRIS</title>
+<meta name="description" content="Sign in to AIRIS — Ambient Indoor Response & Intelligence System.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 32 32&#39;%3E%3Crect width=&#39;32&#39; height=&#39;32&#39; rx=&#39;8&#39; fill=&#39;%2308302f&#39;/%3E%3Ctext x=&#39;16&#39; y=&#39;22&#39; font-family=&#39;Helvetica,Arial,sans-serif&#39; font-size=&#39;18&#39; font-weight=&#39;bold&#39; fill=&#39;%2322b8b0&#39; text-anchor=&#39;middle&#39;%3EA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-body">
+
+<div class="login-screen">
+
+  <section class="login-hero" aria-hidden="false">
+    <div class="login-hero-decor" aria-hidden="true">
+      <span class="hero-ring hero-ring-a"></span>
+      <span class="hero-ring hero-ring-b"></span>
+      <span class="hero-ring hero-ring-c"></span>
+    </div>
+
+    <div class="login-hero-top">
+      <span class="brand-mark small">A</span>
+      <div class="brand-text">
+        <strong>AIRIS</strong>
+        <small>Ambient Indoor Response &amp; Intelligence</small>
+      </div>
+    </div>
+
+    <div class="login-hero-center">
+      <div class="status-ring" style="--ring-pct: 78%;">
+        <div class="status-ring-inner">
+          <span class="status-ring-value">78</span>
+          <span class="status-ring-label">System Ready</span>
+        </div>
+      </div>
+      <h1 class="login-hero-title">Real-time restroom monitoring<br>for the SH Building</h1>
+      <p class="login-hero-sub">Temperature, humidity, VOC and CO2 sensors reporting live across 6 restrooms.</p>
+    </div>
+
+    <p class="login-hero-foot">&copy; 2026 AIRIS &bull; Group 19 &bull; SH Building Facilities</p>
+  </section>
+
+  <section class="login-form-panel">
+    <div class="login-form-wrap">
+      <p class="login-eyebrow">Administrator Access</p>
+      <h2 class="login-welcome">Welcome back</h2>
+
+      {% if error %}
+      <div class="login-alert" role="alert">
+        <span class="login-alert-icon">&#9888;</span>
+        <span>{{ error }}</span>
+      </div>
+      {% endif %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+          <div class="flash flash-{{ category }} login-flash">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" action="{{ url_for('login') }}" class="login-form" novalidate>
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <div class="field login-field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="Enter username"
+                 autocomplete="username" required autofocus>
+        </div>
+
+        <div class="field login-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter password"
+                 autocomplete="current-password" required>
+        </div>
+
+        <div class="login-row">
+          <label class="login-remember">
+            <input type="checkbox" name="remember">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="login-forgot">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary login-submit">Log In</button>
+      </form>
+
+      <p class="login-secure">&#128274; Connection secured for authorized SH Building staff</p>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

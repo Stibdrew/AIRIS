@@ -1,0 +1,240 @@
+{# ---------------------------------------------------------------------
+   AIRIS reusable Jinja components.
+   Import with context so macros can see `active`, `nav_sections`, etc:
+     {% from "components/macros.html" import sidebar, topbar, ... with context %}
+--------------------------------------------------------------------- #}
+
+{% macro icon(name, size=18) -%}
+{% if name == 'grid' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+{% elif name == 'pulse' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2 7 4-14 2 7h6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+{% elif name == 'door' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><circle cx="14.5" cy="12" r="1"/></svg>
+{% elif name == 'bell' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" stroke-linecap="round"/></svg>
+{% elif name == 'doc' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h7l4 4v14H7z" stroke-linejoin="round"/><path d="M11 3v5h5" stroke-linejoin="round"/><path d="M9.5 13h5M9.5 16.5h5" stroke-linecap="round"/></svg>
+{% elif name == 'chart' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M11 20V4M18 20v-7" stroke-linecap="round"/></svg>
+{% elif name == 'gear' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.4-2-3.4-2.3.7a7.7 7.7 0 0 0-1.7-1L15 3h-6l-.4 2.9a7.7 7.7 0 0 0-1.7 1l-2.3-.7-2 3.4L4.6 11a7.6 7.6 0 0 0 0 2l-2 1.4 2 3.4 2.3-.7c.5.4 1.1.75 1.7 1L9 21h6l.4-2.9c.6-.25 1.2-.6 1.7-1l2.3.7 2-3.4-2-1.4Z" stroke-linejoin="round"/></svg>
+{% elif name == 'user' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5" stroke-linecap="round"/></svg>
+{% elif name == 'logout' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H9" stroke-linecap="round"/><path d="M14 15l4-3-4-3M18 12H8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+{% elif name == 'menu' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+{% elif name == 'warning' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 2 20h20L12 3Z" stroke-linejoin="round"/><path d="M12 9.5v4.5M12 17.2v.1" stroke-linecap="round"/></svg>
+{% elif name == 'info' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 8v.1" stroke-linecap="round"/></svg>
+{% elif name == 'download' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m0 0 4-4m-4 4-4-4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V17" stroke-linecap="round"/></svg>
+{% elif name == 'plus' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>
+{% elif name == 'chevron-left' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+{% elif name == 'chevron-right' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+{% elif name == 'close' %}
+<svg width="{{ size }}" height="{{ size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
+{% endif %}
+{%- endmacro %}
+
+
+{% macro sidebar() -%}
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-mark">A</span>
+    <div class="brand-text">
+      <strong>AIRIS</strong>
+      <small>Ambient Indoor Response &amp; Intelligence</small>
+    </div>
+    <button class="icon-btn sidebar-close" id="sidebarClose" aria-label="Close menu">{{ icon('close', 18) }}</button>
+  </div>
+
+  <nav class="sidebar-nav">
+    {% for section in nav_sections %}
+    <div class="nav-section">
+      <p class="nav-heading">{{ section.heading }}</p>
+      {% for item in section['items'] %}
+      <a href="{{ url_for(item.endpoint) }}"
+         title="{{ item.label }}"
+         class="nav-item {{ 'is-active' if active == item.endpoint else '' }}">
+        {{ icon(item.icon, 17) }}
+        <span>{{ item.label }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </nav>
+</aside>
+<div class="sidebar-scrim" id="sidebarScrim"></div>
+{%- endmacro %}
+
+
+{% macro topbar(title) -%}
+{% set display_name = account.display_name if account else (current_user_name or 'Administrator') %}
+{% set display_email = account.email if account else 'admin@airis.local' %}
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="true">{{ icon('menu', 20) }}</button>
+  <div class="topbar-brand">
+    <span class="brand-mark small">A</span>
+    <strong>AIRIS</strong>
+  </div>
+  <div class="topbar-spacer"></div>
+  <span class="topbar-title">{{ title }}</span>
+  <div class="topbar-actions">
+    <a href="{{ url_for('alerts') }}" class="icon-btn" aria-label="Notifications">
+      {{ icon('bell', 19) }}
+    </a>
+
+    <div class="account-menu" id="accountMenu">
+      <button type="button"
+              class="user-chip"
+              id="accountTrigger"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="accountDropdown"
+              aria-label="Account menu">
+        {{ display_name[:1]|upper }}
+      </button>
+
+      <div class="account-dropdown" id="accountDropdown" role="menu" aria-labelledby="accountTrigger" hidden>
+        <div class="account-dropdown-head">
+          <p class="account-name">{{ display_name }}</p>
+          <p class="account-email">{{ display_email }}</p>
+        </div>
+        <div class="account-dropdown-items">
+          <a href="{{ url_for('settings') }}" class="account-item" role="menuitem">
+            {{ icon('user', 16) }}<span>Profile &amp; Settings</span>
+          </a>
+          <form method="post" action="{{ url_for('logout') }}" class="account-logout-form">
+            <button type="submit" class="account-item is-danger" role="menuitem">
+              {{ icon('logout', 16) }}<span>Log Out</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{%- endmacro %}
+
+
+{% macro page_banner(eyebrow, title, meta) -%}
+<div class="page-head">
+  <p class="eyebrow">{{ eyebrow }}</p>
+  <h1>{{ title }}</h1>
+  {% if meta %}<p class="meta">{{ meta }}</p>{% endif %}
+</div>
+{%- endmacro %}
+
+
+{% macro status_badge(status) -%}
+{% set s = status|lower %}
+<span class="badge badge-{{ 'normal' if s in ['normal','online','good'] else ('warning' if s in ['warning','moderate'] else 'offline') }}">
+  <i class="dot"></i>{{ status|capitalize }}
+</span>
+{%- endmacro %}
+
+
+{# `metric` opts the card into the live-update + hover-detail behaviour in
+   app.js. Omit it and the card renders exactly as before. #}
+{% macro metric_card(label, value, unit='', hint='', tone='neutral', metric='') -%}
+<div class="metric-card tone-{{ tone }}{{ ' is-interactive' if metric else '' }}"
+     {% if metric %}data-metric="{{ metric }}" data-tip tabindex="0"{% endif %}>
+  <p class="metric-label">{{ label }}</p>
+  <p class="metric-value"><span data-field="value">{{ value }}</span><span class="metric-unit">{{ unit }}</span></p>
+  {% if hint %}<p class="metric-hint" data-field="hint">{{ hint }}</p>{% endif %}
+</div>
+{%- endmacro %}
+
+
+{# Shared restroom card — used by the Dashboard and the Restrooms page so the
+   two can't drift apart. `detailed` adds the sensor/threshold chips. #}
+{% macro restroom_card(r, detailed=False) -%}
+<div class="restroom-card status-{{ r.status }} is-interactive"
+     data-code="{{ r.code }}" data-tip tabindex="0">
+  <div class="restroom-card-top">
+    <div>
+      <p class="restroom-name">{{ r.name }}</p>
+      <p class="restroom-meta">{{ r.floor }} · {{ r.wing }}</p>
+    </div>
+    <span data-field="badge">{{ status_badge(r.status) }}</span>
+  </div>
+
+  {% if detailed %}
+  <div class="metric-mini-grid">
+    <div class="metric-mini"><span>AQI</span><strong data-field="aqi">{{ r.aqi }}</strong></div>
+    <div class="metric-mini"><span>Temperature</span><strong data-field="temperature">{{ "%.1f"|format(r.temperature) }}°C</strong></div>
+    <div class="metric-mini"><span>Humidity</span><strong data-field="humidity">{{ r.humidity }}%</strong></div>
+    <div class="metric-mini"><span>VOC</span><strong data-field="voc">{{ r.voc }} ppb</strong></div>
+    <div class="metric-mini"><span>CO₂</span><strong data-field="co2">{{ r.co2 }} ppm</strong></div>
+    <div class="metric-mini"><span>Occupancy</span><strong data-field="occupancy">{{ r.occupancy }}</strong></div>
+  </div>
+
+  <div class="restroom-card-foot">
+    <span class="sensor-chip {{ 'online' if r.sensor_status == 'Online' else 'offline' }}">
+      <i class="dot"></i>{{ r.sensor_type }} sensor {{ r.sensor_status|lower }}
+    </span>
+    <span class="threshold-chip {{ 'exceeded' if r.over_threshold else 'ok' }}" data-field="threshold">
+      {{ 'Exceeded' if r.over_threshold else 'Within' }} {{ r.threshold_label }} threshold
+    </span>
+  </div>
+  {% else %}
+  <div class="restroom-aqi-row">
+    <div>
+      <span class="restroom-aqi-label">AQI</span>
+      <strong class="restroom-aqi-value" data-field="aqi">{{ r.aqi }}</strong>
+    </div>
+    <span class="restroom-occupancy" data-field="occupancy-line">
+      {{ r.occupancy }} {{ 'person' if r.occupancy == 1 else 'people' }} inside
+    </span>
+  </div>
+  <div class="restroom-metrics">
+    <span data-field="temperature">{{ "%.1f"|format(r.temperature) }}°C</span>
+    <span data-field="humidity">{{ r.humidity }}%</span>
+    <span data-field="voc">{{ r.voc }} ppb</span>
+    <span data-field="co2">{{ r.co2 }} ppm</span>
+  </div>
+  {% endif %}
+
+  <p class="restroom-note" data-field="note">{{ r.condition_note }}</p>
+</div>
+{%- endmacro %}
+
+
+{% macro notification_card(a) -%}
+<div class="notif-card sev-{{ a.severity }} {{ 'is-unread' if not a.is_read else '' }}" data-severity="{{ a.severity }}" data-read="{{ 1 if a.is_read else 0 }}" data-id="{{ a.id }}">
+  <div class="notif-icon">{{ icon('warning' if a.severity == 'warning' else 'info', 16) }}</div>
+  <div class="notif-body">
+    <div class="notif-top">
+      <p class="notif-title">{{ a.title }}</p>
+      {% if not a.is_read %}<span class="unread-dot" aria-label="Unread"></span>{% endif %}
+    </div>
+    <p class="notif-detail">{{ a.detail }}</p>
+    <p class="notif-time">{{ a.display_time }}</p>
+  </div>
+  {% if not a.is_read %}
+  <form method="post" action="{{ url_for('mark_alert_read', alert_id=a.id) }}" class="notif-dismiss-form">
+    <button type="submit" class="link-btn">Mark read</button>
+  </form>
+  {% endif %}
+</div>
+{%- endmacro %}
+
+
+{% macro toggle(name, checked, label, hint) -%}
+<div class="toggle-row">
+  <div>
+    <p class="toggle-label">{{ label }}</p>
+    {% if hint %}<p class="toggle-hint">{{ hint }}</p>{% endif %}
+  </div>
+  <label class="switch">
+    <input type="checkbox" name="{{ name }}" {{ 'checked' if checked else '' }}>
+    <span class="switch-track"><span class="switch-thumb"></span></span>
+  </label>
+</div>
+{%- endmacro %}

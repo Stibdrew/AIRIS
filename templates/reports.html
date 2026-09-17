@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% from "components/macros.html" import page_banner, icon with context %}
+
+{% block content %}
+<div class="page">
+  {{ page_banner("Air quality reporting", "Reports", "Generate and download monthly summaries and incident reports") }}
+
+  <form method="post" action="{{ url_for('generate_report') }}" class="report-controls">
+    <div class="field-inline">
+      <label for="period">Period</label>
+      <select name="period" id="period">
+        <option>July 2026</option>
+        <option>June 2026</option>
+        <option>May 2026</option>
+      </select>
+    </div>
+    <div class="field-inline">
+      <label for="scope">Scope</label>
+      <select name="scope" id="scope">
+        {% for code in restroom_codes %}
+        <option>{{ code }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button type="submit" class="btn-primary">{{ icon('plus', 15) }} Generate Report</button>
+  </form>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Report</th>
+          <th>Period</th>
+          <th>Scope</th>
+          <th>Generated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reports %}
+        <tr>
+          <td class="cell-strong">{{ r.title }}</td>
+          <td>{{ r.period }}</td>
+          <td>{{ r.scope }}</td>
+          <td class="cell-sub">{{ r.generated_on }}</td>
+          <td class="cell-action">
+            <a href="{{ url_for('download_report', report_id=r.id) }}" class="btn-ghost">
+              {{ icon('download', 14) }} Download
+            </a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="empty-state">No reports yet — generate one above.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

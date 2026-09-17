@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Profile & Settings{% endblock %}
+{% from "components/macros.html" import page_banner, toggle, icon with context %}
+
+{% block content %}
+<div class="page">
+  {{ page_banner("Account", "Profile & Settings", user.role ~ " · " ~ user.building) }}
+
+  <form method="post" action="{{ url_for('save_settings') }}" class="settings-form">
+    <div class="card settings-card">
+      <h3>Profile</h3>
+      <div class="field">
+        <label for="display_name">Display Name</label>
+        <input type="text" id="display_name" name="display_name" value="{{ user.display_name }}">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}">
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <p class="static-field">{{ user.role }} · {{ user.building }}</p>
+      </div>
+    </div>
+
+    <div class="card settings-card">
+      <h3>Notification preferences</h3>
+      {{ toggle("email_alerts", prefs.email_alerts, "Email alerts", "Get an email when a reading crosses a threshold.") }}
+      {{ toggle("sms_alerts", prefs.sms_alerts, "SMS alerts", "Text message for warning and poor readings only.") }}
+      {{ toggle("weekly_digest", prefs.weekly_digest, "Weekly digest", "Summary of trends every Monday morning.") }}
+    </div>
+
+    <div class="settings-actions">
+      <button type="submit" class="btn-primary">Save Changes</button>
+    </div>
+  </form>
+
+  <div class="card settings-card settings-logout-card">
+    <div class="settings-logout-copy">
+      <h3>Account access</h3>
+      <p>Signed in as {{ current_user_name|default(user.display_name) }}. Signing out will end this session on this device.</p>
+    </div>
+    <form method="post" action="{{ url_for('logout') }}">
+      <button type="submit" class="btn-danger">
+        {{ icon('logout', 16) }}
+        <span>Log Out</span>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

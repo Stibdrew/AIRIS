@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Sensor Configuration{% endblock %}
+{% from "components/macros.html" import page_banner with context %}
+
+{% block content %}
+<div class="page">
+  {{ page_banner("Thresholds &amp; calibration", "Sensor Configuration", sensors|length ~ " sensors across 6 restrooms") }}
+
+  <div class="table-wrap">
+    <table class="data-table sensors-table">
+      <thead>
+        <tr>
+          <th>Restroom</th>
+          <th>Sensor type</th>
+          <th>Threshold</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in sensors %}
+        <tr>
+          <td class="cell-strong">{{ s.restroom_name }}</td>
+          <td>{{ s.sensor_type }}</td>
+          <td>
+            <form method="post" action="{{ url_for('save_sensor', sensor_id=s.id) }}" class="threshold-form">
+              <input type="number" step="0.1" name="threshold_value" value="{{ s.threshold_value }}" class="threshold-input">
+              <span class="threshold-unit">{{ s.unit }}</span>
+              <button type="submit" class="btn-ghost small">Save</button>
+            </form>
+          </td>
+          <td>
+            {% if s.status == 'Online' %}
+              <span class="badge badge-normal"><i class="dot"></i>Online</span>
+            {% else %}
+              <span class="badge badge-offline"><i class="dot"></i>Offline</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
